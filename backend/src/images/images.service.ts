@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateImageDto } from './dto/create-image.dto';
 import { UpdateImageDto } from './dto/update-image.dto';
 
@@ -8,8 +8,23 @@ export class ImagesService {
     return 'This action adds a new image';
   }
 
-  findAll() {
-    return `This action returns all images`;
+  async findAll() {
+    let imagesAndPhotos;
+
+    try {
+      imagesAndPhotos = await Promise.all([
+        fetch(
+          'https://my-json-server.typicode.com/icedrone/json-demo-server/images',
+        ).then((res) => res.json()),
+        fetch(
+          'https://my-json-server.typicode.com/icedrone/json-demo-server/photos',
+        ).then((res) => res.json()),
+      ]);
+    } catch (error) {
+      throw new HttpException('Failed to fetch images', 500);
+    }
+
+    return imagesAndPhotos.flat().reduce((acc, cur) => acc.concat(cur), []);
   }
 
   findOne(id: number) {
