@@ -12,14 +12,6 @@ export const Carousel: FC<ICarouselProps> = (props) => {
 
   const [currentImage, setCurrentImage] = useState(0);
 
-  const handleNav = (direction: string) => {
-    if (direction === 'left') {
-      setCurrentImage(currentImage - 1);
-    } else {
-      setCurrentImage(currentImage + 1);
-    }
-  }
-
   return (
     <div className="carousel-root">
       <div className="carousel-paper">
@@ -27,7 +19,7 @@ export const Carousel: FC<ICarouselProps> = (props) => {
           <button
             className="button"
             disabled={currentImage === 0}
-            onClick={() => handleNav('left')}
+            onClick={() => setCurrentImage(currentImage - 1)}
           >
             &#10094;
           </button>
@@ -45,7 +37,7 @@ export const Carousel: FC<ICarouselProps> = (props) => {
           <button
             className="button"
             disabled={currentImage === images.length - 1}
-            onClick={() => handleNav('right')}
+            onClick={() => setCurrentImage(currentImage + 1)}
           >
             &#10095;
           </button>
