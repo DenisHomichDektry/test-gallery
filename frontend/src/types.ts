@@ -2,6 +2,7 @@ export type TImage = {
   id: number;
   albumId: number;
   title: string;
-  url: string;
+  path?: string;
+  url?: string;
   thumbnailUrl?: string;
 }

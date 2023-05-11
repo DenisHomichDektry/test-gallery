@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <button onClick={() => setIsGallery(!isGallery)}>Show {isGallery ? 'Carousel': 'Gallery'}</button>
-      {isGallery ? <Gallery/> : <Carousel/>}
+      {images ? isGallery ? <Gallery images={images}/> : <Carousel/> : <h1>Loading...</h1>}
     </div>
   );
 }
