@@ -9,22 +9,25 @@ export class ImagesService {
   }
 
   async findAll() {
-    let imagesAndPhotos;
+    let images = [];
+    let photos = [];
 
     try {
-      imagesAndPhotos = await Promise.all([
-        fetch(
-          'https://my-json-server.typicode.com/icedrone/json-demo-server/images',
-        ).then((res) => res.json()),
-        fetch(
-          'https://my-json-server.typicode.com/icedrone/json-demo-server/photos',
-        ).then((res) => res.json()),
-      ]);
+      images = await fetch(
+        'https://my-json-server.typicode.com/icedrone/json-demo-server/images',
+      ).then((res) => res.json());
     } catch (error) {
-      throw new HttpException('Failed to fetch images', 500);
+      console.log('Failed to fetch images');
+    }
+    try {
+      photos = await fetch(
+        'https://my-json-server.typicode.com/icedrone/json-demo-server/photos',
+      ).then((res) => res.json());
+    } catch (error) {
+      console.log('Failed to fetch photos');
     }
 
-    return imagesAndPhotos.flat().reduce((acc, cur) => acc.concat(cur), []);
+    return images.flat().concat(photos.flat());
   }
 
   findOne(id: number) {
