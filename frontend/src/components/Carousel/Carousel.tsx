@@ -10,7 +10,7 @@ interface ICarouselProps {
 export const Carousel: FC<ICarouselProps> = (props) => {
   const { images } = props;
 
-  const [currentImage, setCurrentImage] = useState(1);
+  const [currentImage, setCurrentImage] = useState(0);
 
   const handleNav = (direction: string) => {
     if (direction === 'left') {
@@ -24,7 +24,13 @@ export const Carousel: FC<ICarouselProps> = (props) => {
     <div className="carousel-root">
       <div className="carousel-paper">
         <div className="img-nav-box">
-          <button onClick={() => handleNav('left')}>{'<'}</button>
+          <button
+            className="button"
+            disabled={currentImage === 0}
+            onClick={() => handleNav('left')}
+          >
+            &#10094;
+          </button>
           <div className="img-box">
             <div className="img-container">
               {images.map((image, index) => (
@@ -36,10 +42,22 @@ export const Carousel: FC<ICarouselProps> = (props) => {
               ))}
             </div>
           </div>
-          <button onClick={() => handleNav('right')}>{'>'}</button>
+          <button
+            className="button"
+            disabled={currentImage === images.length - 1}
+            onClick={() => handleNav('right')}
+          >
+            &#10095;
+          </button>
         </div>
         <div className="dots-box">
-          <h1>dots...</h1>
+          {images.map((image, index) => (
+            <div
+              key={image.id + image.albumId + index}
+              style={{backgroundColor: currentImage === index ? '#b6e903': '#616e70'}}
+              onClick={() => setCurrentImage(index)}
+            />
+          ))}
         </div>
       </div>
     </div>
